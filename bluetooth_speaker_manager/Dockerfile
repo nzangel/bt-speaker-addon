@@ -1,19 +1,11 @@
-FROM ghcr.io/home-assistant/amd64-base:latest
+FROM ghcr.io/home-assistant/amd64-base:3.21
 
 ARG BUILD_ARCH=amd64
 ARG BUILD_DATE
 ARG BUILD_REF
 ARG BUILD_VERSION
 
-LABEL \
-    io.hass.name="Bluetooth Speaker Manager" \
-    io.hass.description="Connectez et gérez vos enceintes Bluetooth" \
-    io.hass.arch="${BUILD_ARCH}" \
-    io.hass.type="addon" \
-    io.hass.version=${BUILD_VERSION} \
-    maintainer="Christophe"
-
-# Install dependencies
+# Install system dependencies
 RUN apk add --no-cache \
     bluez \
     bluez-deprecated \
@@ -23,8 +15,6 @@ RUN apk add --no-cache \
     dbus \
     python3 \
     py3-pip \
-    py3-dbus \
-    py3-gobject3 \
     bash \
     curl \
     jq
@@ -32,19 +22,17 @@ RUN apk add --no-cache \
 # Install Python dependencies
 RUN pip3 install --break-system-packages \
     fastapi \
-    uvicorn \
-    pydbus \
+    "uvicorn[standard]" \
     httpx \
     aiofiles
 
-# Copy application files
+# Copy rootfs overlay
 COPY rootfs /
 
 # Make scripts executable
-RUN chmod +x /usr/bin/bluetooth_manager.py \
-    && chmod +x /run.sh
+RUN chmod a+x /usr/bin/bluetooth_manager.py \
+    && chmod a+x /run.sh
 
-# Expose web interface port
 EXPOSE 7880
 
 CMD ["/run.sh"]
