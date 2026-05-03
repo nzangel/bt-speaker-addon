@@ -1,4 +1,7 @@
 #!/usr/bin/with-contenv bashio
+# ==============================================================================
+# Bluetooth Speaker Manager - service principal
+# ==============================================================================
 
 LOG_LEVEL=$(bashio::config 'log_level' 'info')
 AUTO_RECONNECT=$(bashio::config 'auto_reconnect' 'true')
@@ -9,7 +12,7 @@ bashio::log.info "Démarrage du Bluetooth Speaker Manager..."
 # D-Bus
 if [ ! -f /run/dbus/pid ]; then
     mkdir -p /run/dbus
-    dbus-daemon --system --fork || true
+    dbus-daemon --system --fork 2>/dev/null || true
     bashio::log.info "D-Bus démarré"
 fi
 

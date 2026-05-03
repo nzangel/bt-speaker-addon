@@ -26,13 +26,11 @@ RUN pip3 install --break-system-packages \
     httpx \
     aiofiles
 
-# Copy rootfs overlay
+# Copy rootfs overlay (inclut etc/services.d/bluetooth_manager/run)
 COPY rootfs /
 
-# Make scripts executable
-RUN chmod a+x /usr/bin/bluetooth_manager.py \
-    && chmod a+x /run.sh
-
-EXPOSE 7880
-
-CMD ["/run.sh"]
+# Rendre les scripts s6 et le manager exécutables
+RUN chmod a+x \
+    /etc/services.d/bluetooth_manager/run \
+    /etc/services.d/bluetooth_manager/finish \
+    /usr/bin/bluetooth_manager.py
