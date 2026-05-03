@@ -16,14 +16,9 @@ privileged:
 capabilities:
   - NET_ADMIN
   - SYS_ADMIN
-  - SYS_RAWIO
 full_access: true
 apparmor: true
 audio: true
-uart: false
-usb: false
-map:
-  - ssl:ro
 ports:
   7880/tcp: 7880
 ports_description:
@@ -33,14 +28,16 @@ options:
   auto_reconnect: true
   reconnect_delay: 30
   scan_timeout: 15
-  trusted_only: false
 schema:
   log_level: "list(trace|debug|info|notice|warning|error|fatal)?"
   auto_reconnect: bool
   reconnect_delay: int(5,300)
   scan_timeout: int(5,60)
-  trusted_only: bool
 panel_icon: "mdi:bluetooth-audio"
 panel_title: "BT Speaker"
 panel_admin: false
-url: "https://github.com/youruser/ha-bluetooth-speaker-manager"
+url: "https://github.com/TON_USER/ha-bluetooth-speaker-manager"
+build_from:
+  aarch64: "ghcr.io/home-assistant/aarch64-base:3.18"
+  amd64: "ghcr.io/home-assistant/amd64-base:3.18"
+  armv7: "ghcr.io/home-assistant/armv7-base:3.18"
