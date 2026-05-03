@@ -1,5 +1,17 @@
-ARG BUILD_FROM
-FROM ${BUILD_FROM}
+FROM ghcr.io/home-assistant/amd64-base:latest
+
+ARG BUILD_ARCH=amd64
+ARG BUILD_DATE
+ARG BUILD_REF
+ARG BUILD_VERSION
+
+LABEL \
+    io.hass.name="Bluetooth Speaker Manager" \
+    io.hass.description="Connectez et gérez vos enceintes Bluetooth" \
+    io.hass.arch="${BUILD_ARCH}" \
+    io.hass.type="addon" \
+    io.hass.version=${BUILD_VERSION} \
+    maintainer="Christophe"
 
 # Install dependencies
 RUN apk add --no-cache \
@@ -13,8 +25,6 @@ RUN apk add --no-cache \
     py3-pip \
     py3-dbus \
     py3-gobject3 \
-    mpd \
-    mpc \
     bash \
     curl \
     jq
