@@ -1,0 +1,16 @@
+configuration:
+  log_level:
+    name: Niveau de log
+    description: Verbosité des logs (info recommandé)
+  auto_reconnect:
+    name: Reconnexion automatique
+    description: Reconnecte automatiquement les enceintes enregistrées après un redémarrage ou une déconnexion
+  reconnect_delay:
+    name: Délai de reconnexion (secondes)
+    description: Intervalle en secondes entre chaque tentative de reconnexion automatique
+  scan_timeout:
+    name: Durée du scan (secondes)
+    description: Durée du scan Bluetooth pour détecter les appareils à portée
+  trusted_only:
+    name: Appareils de confiance uniquement
+    description: Affiche uniquement les appareils déjà appairés lors du scan

@@ -1,0 +1,61 @@
+#include <tunables/global>
+
+profile bluetooth_speaker_manager flags=(attach_disconnected,mediate_deleted) {
+  #include <abstractions/base>
+
+  # Capabilities needed for Bluetooth
+  capability net_admin,
+  capability sys_admin,
+  capability sys_rawio,
+
+  # D-Bus access for BlueZ
+  network bluetooth,
+  network,
+
+  # D-Bus
+  dbus send bus=system path=/org/bluez{,/**}
+       interface=org.bluez{,.*}
+       peer=(name=org.bluez),
+  dbus receive bus=system path=/org/bluez{,/**}
+       interface=org.bluez{,.*}
+       peer=(name=org.bluez),
+  dbus send bus=system path=/org/freedesktop/DBus
+       interface=org.freedesktop.DBus
+       member={RequestName,ReleaseName,GetNameOwner,NameHasOwner},
+  dbus bind bus=system name=org.bluez,
+
+  # PulseAudio
+  dbus send bus=system path=/org/pulseaudio{,/**},
+  dbus receive bus=system path=/org/pulseaudio{,/**},
+  unix (send, receive) type=stream addr=@/tmp/pulse*,
+  unix (connect, send, receive) type=stream addr=@/tmp/pulse-*,
+
+  # File system access
+  /usr/bin/bluetooth_manager.py r,
+  /run.sh r,
+  /tmp/** rw,
+  /var/run/dbus/system_bus_socket rw,
+  /run/dbus/system_bus_socket rw,
+  /proc/*/net/dev r,
+  /sys/class/bluetooth/** r,
+  /sys/bus/bluetooth/** r,
+  /etc/bluetooth/** r,
+  /var/lib/bluetooth/** rw,
+
+  # Python
+  /usr/bin/python3* ix,
+  /usr/lib/python3*/** r,
+  /usr/local/lib/python3*/** r,
+
+  # System tools
+  /usr/bin/bluetoothctl ix,
+  /usr/bin/pactl ix,
+  /usr/bin/mpd ix,
+  /usr/bin/mpc ix,
+  /usr/sbin/bluetoothd ix,
+
+  # Shell scripts
+  /bin/bash ix,
+  /bin/sh ix,
+  /usr/bin/curl ix,
+}

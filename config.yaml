@@ -1,0 +1,46 @@
+name: "Bluetooth Speaker Manager"
+description: "Connectez et gérez vos enceintes Bluetooth depuis Home Assistant"
+version: "1.0.0"
+slug: "bluetooth_speaker_manager"
+init: false
+arch:
+  - aarch64
+  - amd64
+  - armv7
+homeassistant_api: true
+hassio_api: true
+host_network: true
+privileged:
+  - NET_ADMIN
+  - SYS_ADMIN
+capabilities:
+  - NET_ADMIN
+  - SYS_ADMIN
+  - SYS_RAWIO
+full_access: true
+apparmor: true
+audio: true
+uart: false
+usb: false
+map:
+  - ssl:ro
+ports:
+  7880/tcp: 7880
+ports_description:
+  7880/tcp: "Interface Web Bluetooth Manager"
+options:
+  log_level: "info"
+  auto_reconnect: true
+  reconnect_delay: 30
+  scan_timeout: 15
+  trusted_only: false
+schema:
+  log_level: "list(trace|debug|info|notice|warning|error|fatal)?"
+  auto_reconnect: bool
+  reconnect_delay: int(5,300)
+  scan_timeout: int(5,60)
+  trusted_only: bool
+panel_icon: "mdi:bluetooth-audio"
+panel_title: "BT Speaker"
+panel_admin: false
+url: "https://github.com/youruser/ha-bluetooth-speaker-manager"
