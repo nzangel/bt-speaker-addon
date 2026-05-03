@@ -1,6 +1,6 @@
 name: "Bluetooth Speaker Manager"
 description: "Connectez et gérez vos enceintes Bluetooth depuis Home Assistant"
-version: "1.0.0"
+version: "1.0.1"
 slug: "bluetooth_speaker_manager"
 init: false
 arch:
